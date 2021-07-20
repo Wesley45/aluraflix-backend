@@ -10,8 +10,8 @@
 </p>
 
 <p align="center">
-<img src="https://img.shields.io/static/v1?label=NLW&message=06&color=835AFD&style=flat"/>
-<img src="https://img.shields.io/static/v1?label=languages&message=3&color=835AFD&style=flat"/>
+<img src="https://img.shields.io/static/v1?label=AluraChallenge &message=Backend&color=835AFD&style=flat"/>
+<img src="https://img.shields.io/static/v1?label=languages&message=4&color=835AFD&style=flat"/>
 <img src="https://img.shields.io/static/v1?label=issues&message=0&color=835AFD&style=flat"/>
 <img src="https://img.shields.io/static/v1?label=license&message=MIT&color=835AFD&style=flat"/>
 </p>
