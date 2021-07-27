@@ -9,5 +9,13 @@ class Videos extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    protected $fillable = ['title', 'description', 'url'];
+    protected $fillable = ['categoryId', 'title', 'description', 'url'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(Categories::class, 'categoryId');
+    }
 }

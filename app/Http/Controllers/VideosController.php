@@ -10,7 +10,17 @@ class VideosController extends Controller
 {
     public function index(Request $request)
     {
-        return Videos::paginate(intval($request->get('per_page')));
+        $search = $request->query('search');
+
+        if (!empty($search)) {
+            $titleSearch = "%$search%";
+            $videos = Videos::where('title', 'like', $titleSearch)
+                ->paginate(intval($request->get('per_page')));
+        } else {
+            $videos = Videos::paginate(intval($request->get('per_page')));
+        }
+
+        return $videos;
     }
 
     public function store(Request $request)
@@ -23,7 +33,10 @@ class VideosController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        $categoryId = trim($request->json('categoryId')) ?? 1;
+
         $video = Videos::create([
+            'categoryId' => $categoryId,
             'title' => trim($request->json('title')),
             'description' => trim($request->json('description')),
             'url' => trim($request->json('url')),
@@ -59,6 +72,9 @@ class VideosController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        $categoryId = trim($request->json('categoryId')) ?? 1;
+
+        $video->categoryId = $categoryId;
         $video->title = $request->json('title');
         $video->description = $request->json('description');
         $video->url = $request->json('url');
