@@ -12,13 +12,20 @@ use Illuminate\Support\Facades\Validator;
  */
 class CategoriesController extends Controller
 {
-    /**
-     * @param Request $request
-     * @return mixed
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(Request $request)
     {
-        return Categories::paginate(intval($request->get('per_page')));
+        $per_page = 5;
+        if (!empty($request->get('per_page'))) {
+            $per_page = intval($request->get('per_page'));
+        }
+
+        $categories = Categories::paginate($per_page);
+        return response()->json($categories);
     }
 
     /**
@@ -126,7 +133,7 @@ class CategoriesController extends Controller
     }
 
     /**
-     * @return string[]
+     * @retiiiurn string[]
      */
     private function categoryCredentialsValidationMessages(): array
     {

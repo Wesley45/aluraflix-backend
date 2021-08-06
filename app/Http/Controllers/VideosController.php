@@ -8,19 +8,29 @@ use Illuminate\Support\Facades\Validator;
 
 class VideosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(Request $request)
     {
         $search = $request->query('search');
+        $per_page = 5;
+
+        if (!empty($request->get('per_page'))) {
+            $per_page = intval($request->get('per_page'));
+        }
 
         if (!empty($search)) {
             $titleSearch = "%$search%";
             $videos = Videos::where('title', 'like', $titleSearch)
-                ->paginate(intval($request->get('per_page')));
+                ->paginate($per_page);
         } else {
-            $videos = Videos::paginate(intval($request->get('per_page')));
+            $videos = Videos::paginate($per_page);
         }
 
-        return $videos;
+        return response()->json($videos);
     }
 
     public function store(Request $request)
@@ -33,7 +43,8 @@ class VideosController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $categoryId = trim($request->json('categoryId')) ?? 1;
+        $category_id = trim($request->json('categoryId'));
+        $categoryId = !empty($category_id) ? $category_id : 1;
 
         $video = Videos::create([
             'categoryId' => $categoryId,
@@ -72,7 +83,8 @@ class VideosController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $categoryId = trim($request->json('categoryId')) ?? 1;
+        $category_id = trim($request->json('categoryId'));
+        $categoryId = !empty($category_id) ? $category_id : 1;
 
         $video->categoryId = $categoryId;
         $video->title = $request->json('title');

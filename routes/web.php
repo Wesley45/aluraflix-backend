@@ -3,6 +3,10 @@
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 $router->group(['prefix' => '/api'], function () use ($router) {
+    $router->post('login', 'AuthController@login');
+    $router->post('register', 'RegisterController@store');
+    $router->get('profile', 'AuthController@me');
+    $router->post('logout', 'AuthController@logout');
     $router->group(['prefix' => '/videos'], function () use ($router) {
         $router->get('/', 'VideosController@index');
         $router->get('/{id}', 'VideosController@show');
